@@ -15,8 +15,8 @@ Route::get('/halaman1/create', function () {
 })->name('halaman1.create');
 
 
-Route::get('profile',[frontController::Class,'profile'])->name('profile');
-Route::get('detailProfile/{id}',[frontController::Class,'detailProfile'])->name('detailProfile');
+Route::get('profile', [frontController::class, 'profile'])->name('profile');
+Route::get('detailProfile/{id}', [frontController::class, 'detailProfile'])->name('detailProfile');
 
 
-Route::get('buku',[bukuController::Class,'index'])->name('buku.index');
+Route::get('buku', [bukuController::class, 'index'])->name('buku.index');

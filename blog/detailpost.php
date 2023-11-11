@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <title>Edit Post</title>
+    <title>Detail Post</title>
 </head>
 
 <?php
@@ -27,36 +26,21 @@ if (isset($_GET['id'])) {
         echo "Data tidak ditemukan.";
     }
 }
-
-if (isset($_POST['kirim'])) {
-    $id = $_POST['id'];
-    $title = $_POST['title'];
-    $content = $_POST['content'];
-
-    $sql = "UPDATE post SET title = '$title', content = '$content' WHERE id = $id";
-
-    $result = $koneksi->query($sql);
-
-    if ($result) {
-        header("location: index.php");
-    } else {
-        echo "ERROR";
-    }
-}
 ?>
 
 <body>
     <br>
-    <h1>Edit Post</h1>
+    <h1>Detail Post</h1>
     <br>
     <br>
     <br>
     <div class="container">
-        <form action="edit.php" method="post" class="form">
-            <input class="form-control" name="id" type="hidden" value="<?= $row['id'] ?>">
-            <input class="form-control" type="text" value="<?= $title ?>" name="title" placeholder="Title" required>
-            <br>
-            <div>
+        <form class="form">
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input class="form-control" id="title" type="text" value="<?= $title ?>" readonly>
+            </div>
+            <div class="form-group">
                 <?php
                 if (!empty($image)) {
                     echo "<img src='$image' alt='Gambar' style='max-width: 300px; max-height: 200px;'>";
@@ -65,11 +49,12 @@ if (isset($_POST['kirim'])) {
                 }
                 ?>
             </div>
-            <br>
-            <textarea class="form-control" name="content" rows="6" placeholder="Content"
-                required><?= $content ?></textarea>
-            <br>
-            <input type="submit" value="Kirim" name="kirim" class="btn btn-primary">
+            <div class="form-group">
+                <label for="content">Content:</label>
+                <textarea class="form-control" name="content" rows="6" placeholder="Content"
+                    readonly><?= $content ?></textarea>
+            </div>
+
         </form>
     </div>
 </body>

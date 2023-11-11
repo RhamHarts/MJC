@@ -13,6 +13,10 @@
             padding: 20px;
         }
 
+        h1 {
+            text-align: center;
+        }
+
         .post {
             background-color: #fff;
             padding: 20px;
@@ -45,30 +49,47 @@
 </head>
 
 <body>
-    <div class="container">
-        <a href="create.php"> <button class="btn btn-primary">Post</button></a>
+    <h1>Blooook Spot</h1>
+    <div class="container d-flex justify-content-between">
+        <div>
+            <a href="create.php"><button class="btn btn-primary">Post</button></a>
+        </div>
         <br>
         <br>
         <?php
         require_once "koneksi.php";
 
-        $sql = "SELECT * FROM post";
-        $result = $koneksi->query($sql);
-
-        if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-                echo '<div class="post">';
-                echo '<h2>' . $row['title'] . '</h2>';
-                echo '<p>' . $row['content'] . '</p>';
-                echo '<p><small>' . $row['created_at'] . '</small></p>';
-                echo "<td><a href='delete.php?id=" . $row['id'] . "'><button class='btn btn-danger'>Hapus</button></a></td>";
-                echo "<td><a href='edit.php?id=" . $row['id'] . "'><button class='btn btn-warning'>Edit</button></a></td>";
-                echo '</div>';
-            }
+        if (!isset($_SESSION['username'])) {
+            // echo $_SESSION ['username'];
+            header('location:login.php');
         } else {
-            echo "Tidak ada posting.";
+            echo "<a href = 'logout.php'><button class ='btn btn-danger'>logout</button></a>";
         }
         ?>
+    </div>
+    <?php
+    require_once "koneksi.php";
+
+    $sql = "SELECT * FROM post";
+    $result = $koneksi->query($sql);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo '<div class="post">';
+            echo '<h2><a href="detailpost.php?id=' . $row['id'] . '">' . $row['title'] . '</a></h2>';
+            echo '<p>' . $row['content'] . '</p>';
+            if ($row['image']) {
+                echo '<img src="' . $row['image'] . '" alt="Gambar" style="max-width: 300px; max-height: 200px;">';
+            }
+            echo '<p><small>' . $row['created_at'] . '</small></p>';
+            echo "<td><a href='delete.php?id=" . $row['id'] . "'><button class='btn btn-danger'>Hapus</button></a></td>";
+            echo "<td><a href='edit.php?id=" . $row['id'] . "'><button class='btn btn-warning'>Edit</button></a></td>";
+            echo '</div>';
+        }
+    } else {
+        echo "Tidak ada posting.";
+    }
+    ?>
     </div>
 </body>
 
